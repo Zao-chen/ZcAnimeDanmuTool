@@ -23,33 +23,10 @@ MainWindow::~MainWindow()
 }
 
 /*删除文件名内的多余信息*/
-QString removeBracketsAndDashContent(const QString &input) {
-    QString result = input;
-    // 1. 删除中括号内的内容
-    int start = 0;
-    while ((start = result.indexOf('[')) != -1) {
-        int end = result.indexOf(']', start);
-        if (end != -1) {
-            result.remove(start, end - start + 1); // 包括'['和']'
-        } else {
-            // 如果没有找到']'，则可能是格式错误，可以决定如何处理
-            // 这里简单地从'['处截断字符串
-            result.truncate(start);
-            break;
-        }
-    }
-    // 2. 删除"."号及其后面的所有内容
-    int dashPos = result.indexOf('.');
-    if (dashPos != -1) {
-        result.truncate(dashPos);
-    }
-    // 3. 删除最后的空格
-    QChar lastChar = result.at(result.length() - 1);
-    if (lastChar.isSpace()) {
-        return result.left(result.length() - 1);
-    }
-
-    return result;
+QString removeNonNumericBracketedContent(QString input) {
+    // 匹配中括号包裹的内容，只要括号内包含非纯数字的字符就删除
+    QRegularExpression re("\\[[^\\[\\]]*[^\\d\\[\\]][^\\[\\]]*\\]");
+    return input.replace(re,"");
 }
 QString MainWindow::postUrl(const QString &input)
 {
@@ -98,10 +75,12 @@ void MainWindow::on_pushButton_clicked()
     if (!fileName.isEmpty())
     {
         /*选择文件*/
-        QString fileNameOnly = removeBracketsAndDashContent(QFileInfo(fileName).fileName());
+        QString fileNameOnly = QFileInfo(fileName).baseName();
         ui->plainTextEdit->appendPlainText("选择文件："+fileNameOnly);
         /*文件名处理*/
-        fileNameOnly = removeBracketsAndDashContent(fileNameOnly);
+        fileNameOnly = removeNonNumericBracketedContent(fileNameOnly);
+        fileNameOnly.replace("[","").replace("]","");
+        fileNameOnly = fileNameOnly.trimmed();
         ui->plainTextEdit->appendPlainText("文件名处理："+fileNameOnly);
         /*获取番剧id*/
         fileNameOnly = "https://api.dandanplay.net/api/v2/search/episodes?anime=" + fileNameOnly;
