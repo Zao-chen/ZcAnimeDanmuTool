@@ -20,7 +20,6 @@ private slots:
 
     void on_pushButton_select_file_clicked();
 
-
     void on_lineEdit_file_name_textChanged(const QString &arg1);
 
     void on_pushButton_next_clicked();

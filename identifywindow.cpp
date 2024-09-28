@@ -25,7 +25,8 @@ identifywindow::~identifywindow()
 QString fileName;
 QString fileNameOnly;
 int episodeId;
-QStringList Danmu;
+QList<int> Danmu_time;
+QStringList Danmu_msg;
 
 
 /*删除文件名内的多余信息*/
@@ -170,7 +171,6 @@ void identifywindow::on_pushButton_next_clicked()
                     QJsonObject topLevelObj = doc.object();
                     // 获取"comments"数组
                     QJsonArray commentsArray = topLevelObj["comments"].toArray();
-                    int x=0;
                     for (int i = 0; i < commentsArray.size(); ++i) {
                         QJsonObject commentObj = commentsArray[i].toObject();
                         // 提取"p"和"m"
@@ -182,12 +182,11 @@ void identifywindow::on_pushButton_next_clicked()
                                 pl[i] = p.split(",")[i].toDouble();
                             }
                             QString m = commentObj["m"].toString();
-                            Danmu.append(secondsToTimeString(pl[0])+"|"+m);
-                            ui->plainTextEdit_2->appendPlainText("Dialogue:0,"+secondsToTimeString(pl[0]).replace(".",":")+","+secondsToTimeString(pl[0]+6).replace(".",":")+",R2L,,20,20,2,,{\\move(585,"+QString::number(x*20)+",-25,"+QString::number(x*20)+")}"+m.replace(".","。"));
-                            x++;
-                            if(x==7) x=0;
+                            Danmu_time.append(pl[0]);
+                            Danmu_msg.append(m);
                         }
                     }
+                    QMetaObject::invokeMethod(ui->pushButton_change_danmu, "clicked", Qt::QueuedConnection);
                 }
             }
         }
@@ -196,7 +195,6 @@ void identifywindow::on_pushButton_next_clicked()
     }
     case 2:
     {
-        qDebug()<<"1111";
         QFile file(QFileInfo(fileName).absolutePath()+"\\"+QFileInfo(fileName).baseName()+".ass");
         if (!file.open(QIODevice::WriteOnly)) {
              qDebug() << "无法打开文件进行写入:" << file.errorString();
@@ -215,8 +213,7 @@ void identifywindow::on_pushButton_next_clicked()
         break;
     }
 }
-
-
+/*返回上一级*/
 void identifywindow::on_pushButton_back_clicked()
 {
     switch (ui->stackedWidget->currentIndex()) {
@@ -236,23 +233,25 @@ void identifywindow::on_pushButton_back_clicked()
         break;
     }
 }
-
-
-
-
+/*弹幕样式修改*/
 void identifywindow::on_pushButton_change_danmu_clicked()
 {
-
     ui->plainTextEdit_2->clear();
     ui->plainTextEdit_2->setPlainText("[Script Info]\nTitle: Zaochen\nOriginal Script: \nScriptType: v4.00+\nCollisions: Normal\nPlayResX: 560\nPlayResY: 420\nTimer: 10.0000\n\n[V4+ Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\nStyle: Fix,Microsoft YaHei UI,20,&H66FFFFFF,&H66FFFFFF,&H66000000,&H66000000,1,0,0,0,100,100,0,0,1,2,0,2,20,20,2,0\nStyle: R2L,Microsoft YaHei UI,20,&H66FFFFFF,&H66FFFFFF,&H66000000,&H66000000,1,0,0,0,100,100,0,0,1,2,0,2,20,20,2,0\n\n[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text");
     int x;
-    for(QString danmu1 : Danmu)
+    for(int i=0;i!=Danmu_time.size();i++)
     {
         x++;
-        ui->plainTextEdit_2->appendPlainText("Dialogue:0,"+danmu1.split("|")[0].replace(".",":")
-                                                +","+
-                                                 QString::number(danmu1.split("|")[0].toInt()+6).replace(".",":")
-                                                +",R2L,,20,20,2,,{\\move(585,"+QString::number(x*20)+",-25,"+QString::number(x*20)+")}"+danmu1.split("|")[1].replace(".","。"));
+        ui->plainTextEdit_2->appendPlainText("Dialogue:0,"+
+                                            secondsToTimeString(Danmu_time[i]).replace(".",":")
+                                            +","+
+                                             secondsToTimeString(Danmu_time[i]+ui->lineEdit_danmu_speed->text().toInt()).replace(".",":")
+                                            +",R2L,,20,20,2,,{\\move(585,"+
+                                            QString::number(x*20)
+                                            +",-25,"+
+                                            QString::number(x*20)
+                                            +")}"+
+                                            Danmu_msg[i].replace(".","。"));
         if(x==7) x=0;
     }
 }
