@@ -3,21 +3,24 @@
 
 #include <QMainWindow>
 #include <QNetworkAccessManager>
+#include "identifywindow.h"
+#include "ElaWidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow
+class MainWindow : public ElaWidget
 {
     Q_OBJECT
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    identifywindow *identify_window;
     ~MainWindow();
 
 private slots:
-    void on_pushButton_clicked();
+    void on_pushButton_main_clicked();
 
 private:
     Ui::MainWindow *ui;
