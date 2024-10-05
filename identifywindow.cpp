@@ -16,6 +16,7 @@ identifywindow::identifywindow(QWidget *parent)
 {
     ui->setupUi(this);
     setWindowFlags(Qt::CustomizeWindowHint|Qt::FramelessWindowHint);
+    ui->progressBar->setVisible(0);
 }
 
 identifywindow::~identifywindow()
@@ -107,11 +108,15 @@ void identifywindow::on_lineEdit_file_name_textChanged(const QString &arg1)
 /*下一步*/
 void identifywindow::on_pushButton_next_clicked()
 {
+    loading(true);
     ui->pushButton_next->setEnabled(0);
     ui->pushButton_back->setEnabled(1);
     switch (ui->stackedWidget->currentIndex()) {
     case 0:
     {
+        ui->label_ep_id->setText("Loading...");
+        ui->label_ep_name->setText("Loading...");
+        ui->label_anime_name->setText("Loading...");
         ui->stackedWidget->setCurrentIndex(1);
         /*获取番剧id*/
         QString fileNameEp = postUrl("https://api.dandanplay.net/api/v2/search/episodes?anime=" +fileNameOnly);
@@ -123,6 +128,7 @@ void identifywindow::on_pushButton_next_clicked()
         // 从QJsonObject中获取"animes"数组
         QJsonArray animesArray = obj["animes"].toArray();
         // 遍历animes数组
+        bool find_anime = false;
         for (const QJsonValue &animeValue : animesArray)
         {
             QJsonObject animeObj = animeValue.toObject();
@@ -140,7 +146,18 @@ void identifywindow::on_pushButton_next_clicked()
                 ui->label_ep_name->setText(episodeObj["episodeTitle"].toString());
                 ui->pushButton_next->setEnabled(1);
                 ui->pushButton_back->setEnabled(1);
+                find_anime = true;
+                loading(false);
             }
+        }
+        if(!find_anime)
+        {
+            ui->label_anime_name->setText("未找到");
+            ui->label_ep_id->setText("未找到");
+            ui->label_ep_name->setText("未找到");
+            ui->pushButton_next->setEnabled(0);
+            ui->pushButton_back->setEnabled(1);
+            loading(false);
         }
     }
         break;
@@ -191,6 +208,7 @@ void identifywindow::on_pushButton_next_clicked()
             }
         }
         ui->pushButton_next->setEnabled(1);
+        loading(false);
         break;
     }
     case 2:
@@ -206,16 +224,18 @@ void identifywindow::on_pushButton_next_clicked()
 
         QUrl url = QUrl::fromLocalFile(QFileInfo(fileName).filePath());
         QDesktopServices::openUrl(url);
+        loading(false);
     }
         break;
     default :
-        //***
+        loading(false);
         break;
     }
 }
 /*返回上一级*/
 void identifywindow::on_pushButton_back_clicked()
 {
+    loading(true);
     switch (ui->stackedWidget->currentIndex()) {
     case 0:
         break;
@@ -223,10 +243,12 @@ void identifywindow::on_pushButton_back_clicked()
         ui->stackedWidget->setCurrentIndex(0);
         ui->pushButton_next->setEnabled(1);
         ui->pushButton_back->setEnabled(0);
+        loading(false);
         break;
     case 2:
     {
         ui->stackedWidget->setCurrentIndex(1);
+        loading(false);
     }
     default :
         //***
@@ -236,6 +258,7 @@ void identifywindow::on_pushButton_back_clicked()
 /*弹幕样式修改*/
 void identifywindow::on_pushButton_change_danmu_clicked()
 {
+    loading(1);
     ui->plainTextEdit_2->clear();
     ui->plainTextEdit_2->setPlainText("[Script Info]\nTitle: Zaochen\nOriginal Script: \nScriptType: v4.00+\nCollisions: Normal\nPlayResX: 560\nPlayResY: 420\nTimer: 10.0000\n\n[V4+ Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\nStyle: Fix,Microsoft YaHei UI,20,&H66FFFFFF,&H66FFFFFF,&H66000000,&H66000000,1,0,0,0,100,100,0,0,1,2,0,2,20,20,2,0\nStyle: R2L,Microsoft YaHei UI,20,&H66FFFFFF,&H66FFFFFF,&H66000000,&H66000000,1,0,0,0,100,100,0,0,1,2,0,2,20,20,2,0\n\n[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text");
     int x;
@@ -254,6 +277,19 @@ void identifywindow::on_pushButton_change_danmu_clicked()
                                             Danmu_msg[i].replace(".","。"));
         if(x==7) x=0;
     }
+    loading(0);
 }
-
-
+/*加载中*/
+void identifywindow::loading(bool switch_load)
+{
+    if(switch_load)
+    {
+        this->setEnabled(0);
+        ui->progressBar->setVisible(1);
+    }
+    else
+    {
+        this->setEnabled(1);
+        ui->progressBar->setVisible(0);
+    }
+}

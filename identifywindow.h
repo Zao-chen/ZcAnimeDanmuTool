@@ -32,6 +32,7 @@ private:
     Ui::identifywindow *ui;
     QNetworkAccessManager *m_manager;
     QString postUrl(const QString &input);
+    void loading(bool switch_load);
 };
 
 #endif // IDENTIFYWINDOW_H
