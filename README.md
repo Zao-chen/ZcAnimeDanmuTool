@@ -6,7 +6,7 @@
 
 ![1](https://github.com/user-attachments/assets/7060380e-1067-424d-beb7-5f636f65aa9b) | ![2](https://github.com/user-attachments/assets/bc5192cd-24ef-4368-ae4f-5c37fc0f3936)
 ---- | ---- 
-![3](https://github.com/user-attachments/assets/d8febb8d-154c-475f-adc4-0963a280c982) | ![4](https://github.com/user-attachments/assets/b12aa1aa-5832-40bd-982e-83a6bd9b3d46)
+![3](https://github.com/user-attachments/assets/d8febb8d-154c-475f-adc4-0963a280c982) | ![4](https://github.com/user-attachments/assets/b804831f-5956-4d60-8179-c2e9a6c295db)
 
 ## 功能
 1. 从本地视频中提取番剧名称及集数
