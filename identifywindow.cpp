@@ -9,6 +9,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QDesktopServices>
+#include <QSettings>
 
 identifywindow::identifywindow(QWidget *parent)
     : QWidget(parent)
@@ -203,6 +204,9 @@ void identifywindow::on_pushButton_next_clicked()
                             Danmu_msg.append(m);
                         }
                     }
+                    QSettings *settings = new QSettings("Setting.ini",QSettings::IniFormat);
+                    ui->lineEdit_danmu_speed->setText(settings->value("GlobelSetting/Danmu_stay_time").toString());
+
                     QMetaObject::invokeMethod(ui->pushButton_change_danmu, "clicked", Qt::QueuedConnection);
                 }
             }
@@ -259,6 +263,7 @@ void identifywindow::on_pushButton_back_clicked()
 void identifywindow::on_pushButton_change_danmu_clicked()
 {
     loading(1);
+
     ui->plainTextEdit_2->clear();
     ui->plainTextEdit_2->setPlainText("[Script Info]\nTitle: Zaochen\nOriginal Script: \nScriptType: v4.00+\nCollisions: Normal\nPlayResX: 560\nPlayResY: 420\nTimer: 10.0000\n\n[V4+ Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\nStyle: Fix,Microsoft YaHei UI,20,&H66FFFFFF,&H66FFFFFF,&H66000000,&H66000000,1,0,0,0,100,100,0,0,1,2,0,2,20,20,2,0\nStyle: R2L,Microsoft YaHei UI,20,&H66FFFFFF,&H66FFFFFF,&H66000000,&H66000000,1,0,0,0,100,100,0,0,1,2,0,2,20,20,2,0\n\n[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text");
     int x;
@@ -277,6 +282,17 @@ void identifywindow::on_pushButton_change_danmu_clicked()
                                             Danmu_msg[i].replace(".","。"));
         if(x==7) x=0;
     }
+    QSettings *settings1 = new QSettings("Setting.ini",QSettings::IniFormat);
+    //ini配置文件默认不支持直接读写中文，需要手动设置下编码格式才行
+    //configIni->setIniCodec("utf-8");//添上这句就不会中文出现乱码了
+    //强烈建议统一用utf-8编码，包括代码文件。
+    // 写入第一组数据
+    settings1->beginGroup("GlobelSetting");
+
+    settings1->setValue("Danmu_stay_time",ui->lineEdit_danmu_speed->text().toInt());
+    settings1->endGroup();
+    delete settings1;
+    settings1 =nullptr;
     loading(0);
 }
 /*加载中*/

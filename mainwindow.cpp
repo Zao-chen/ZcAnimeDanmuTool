@@ -20,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent)
     QHBoxLayout *layout = new QHBoxLayout(this);
     ui->widget->setLayout(layout);
     ui->widget->layout()->addWidget(identify_window);
+
+
 }
 
 MainWindow::~MainWindow()

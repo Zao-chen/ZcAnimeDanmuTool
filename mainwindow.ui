@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>ZcDanmuTool</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,2">
    <item>

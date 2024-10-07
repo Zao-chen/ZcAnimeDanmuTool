@@ -519,7 +519,7 @@
                  <item>
                   <widget class="ElaLineEdit" name="lineEdit_danmu_speed">
                    <property name="text">
-                    <string>6</string>
+                    <string>12</string>
                    </property>
                   </widget>
                  </item>
