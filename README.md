@@ -17,12 +17,12 @@
 6. 使用默认播放器播放
 
 ## 目标
-- [ ] 和番剧原有的字幕冲突
-- [ ] 更多可定制项
+- [ ] 解决和番剧原有的字幕冲突
+- [ ] 更多弹幕可定制项
 
 
 ## 相关内容
 
 [dandanplay](https://www.dandanplay.com/)
 
-[ass转换](https://tiansh.github.io/us-danmaku/bilibili/)
+[ASS弹幕转换](https://tiansh.github.io/us-danmaku/bilibili/)
