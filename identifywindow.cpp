@@ -265,7 +265,17 @@ void identifywindow::on_pushButton_change_danmu_clicked()
     loading(1);
 
     ui->plainTextEdit_2->clear();
-    ui->plainTextEdit_2->setPlainText("[Script Info]\nTitle: Zaochen\nOriginal Script: \nScriptType: v4.00+\nCollisions: Normal\nPlayResX: 560\nPlayResY: 420\nTimer: 10.0000\n\n[V4+ Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\nStyle: Fix,Microsoft YaHei UI,20,&H66FFFFFF,&H66FFFFFF,&H66000000,&H66000000,1,0,0,0,100,100,0,0,1,2,0,2,20,20,2,0\nStyle: R2L,Microsoft YaHei UI,20,&H66FFFFFF,&H66FFFFFF,&H66000000,&H66000000,1,0,0,0,100,100,0,0,1,2,0,2,20,20,2,0\n\n[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text");
+    ui->plainTextEdit_2->setPlainText("[Script Info]\n"
+                                      "Title: Zaochen\n"
+                                      "Original Script: \n"
+                                      "ScriptType: v4.00+\n"
+                                      "Collisions: Normal\n"
+                                      "PlayResX: 560\n"
+                                      "PlayResY: 420\n"
+                                      "Timer: 10.0000\n"
+                                      "[V4+ Styles]\n"
+                                      "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\n"
+                                      "Style: R2L,Microsoft YaHei UI,"+ui->lineEdit_size->text()+",&H66FFFFFF,&H66FFFFFF,&H66000000,&H66000000,1,0,0,0,100,100,0,0,1,2,0,2,20,20,2,0\n\n[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text");
     int x;
     for(int i=0;i!=Danmu_time.size();i++)
     {
@@ -273,11 +283,11 @@ void identifywindow::on_pushButton_change_danmu_clicked()
         ui->plainTextEdit_2->appendPlainText("Dialogue:0,"+
                                             secondsToTimeString(Danmu_time[i]).replace(".",":")
                                             +","+
-                                             secondsToTimeString(Danmu_time[i]+ui->lineEdit_danmu_speed->text().toInt()).replace(".",":")
+                                            secondsToTimeString(Danmu_time[i]+ui->lineEdit_danmu_speed->text().toInt()).replace(".",":")
                                             +",R2L,,20,20,2,,{\\move(585,"+
-                                            QString::number(x*20)
+                                            QString::number(ui->lineEdit_line->text().toInt()*x)
                                             +",-25,"+
-                                            QString::number(x*20)
+                                            QString::number(ui->lineEdit_line->text().toInt()*x)
                                             +")}"+
                                             Danmu_msg[i].replace(".","。"));
         if(x==7) x=0;

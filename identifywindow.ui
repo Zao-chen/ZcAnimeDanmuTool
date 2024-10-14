@@ -90,7 +90,7 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="page">
           <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -518,15 +518,14 @@
                 <layout class="QHBoxLayout" name="horizontalLayout_6">
                  <item>
                   <widget class="ElaLineEdit" name="lineEdit_danmu_speed">
-                   <property name="text">
-                    <string>12</string>
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>30</height>
+                    </size>
                    </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="label_10">
                    <property name="text">
-                    <string>S</string>
+                    <string>14</string>
                    </property>
                   </widget>
                  </item>
@@ -535,7 +534,59 @@
                <item>
                 <widget class="QLabel" name="label_17">
                  <property name="text">
-                  <string>即每条弹幕在屏幕中停留多少时间</string>
+                  <string>即每条弹幕在屏幕中停留多少时间（单位秒）</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_18">
+                 <property name="font">
+                  <font>
+                   <pointsize>12</pointsize>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>弹幕大小</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="ElaLineEdit" name="lineEdit_size">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>15</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_19">
+                 <property name="font">
+                  <font>
+                   <pointsize>12</pointsize>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>字幕行距</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="lineEdit_line">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>16</string>
                  </property>
                 </widget>
                </item>
