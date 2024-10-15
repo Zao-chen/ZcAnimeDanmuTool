@@ -275,21 +275,48 @@ void identifywindow::on_pushButton_change_danmu_clicked()
                                       "Timer: 10.0000\n"
                                       "[V4+ Styles]\n"
                                       "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\n"
-                                      "Style: R2L,Microsoft YaHei UI,"+ui->lineEdit_size->text()+",&H66FFFFFF,&H66FFFFFF,&H66000000,&H66000000,1,0,0,0,100,100,0,0,1,2,0,2,20,20,2,0\n\n[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text");
-    int x;
+                                      "Style: nurmal,Microsoft YaHei UI,"+ui->lineEdit_size->text()+",&H66FFFFFF,&H66FFFFFF,&H66000000,&H66000000,1,0,0,0,100,100,0,0,1,2,0,2,20,20,2,0\n"
+                                      "Style: big,Microsoft YaHei UI,"+QString::number(ui->lineEdit_size->text().toInt()+3)+",&H66FFFFFF,&H66FFFFFF,&H66000000,&H66000000,1,0,0,0,100,100,0,0,1,2,0,2,20,20,2,0"
+                                      "\n\n[Events]\n"
+                                      "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text");
+    int x=0;
+    int repeat=0;
     for(int i=0;i!=Danmu_time.size();i++)
     {
         x++;
-        ui->plainTextEdit_2->appendPlainText("Dialogue:0,"+
+        repeat = 0;
+        while(1)
+        {
+             if(Danmu_msg[i]!=Danmu_msg[i+1]) break;
+             else repeat++;
+             i++;
+        }
+        if(repeat==0)
+        {
+            ui->plainTextEdit_2->appendPlainText("Dialogue:0,"+
                                             secondsToTimeString(Danmu_time[i]).replace(".",":")
                                             +","+
                                             secondsToTimeString(Danmu_time[i]+ui->lineEdit_danmu_speed->text().toInt()).replace(".",":")
-                                            +",R2L,,20,20,2,,{\\move(585,"+
+                                            +",nurmal,,20,20,2,,{\\move(585,"+
                                             QString::number(ui->lineEdit_line->text().toInt()*x)
                                             +",-25,"+
                                             QString::number(ui->lineEdit_line->text().toInt()*x)
                                             +")}"+
                                             Danmu_msg[i].replace(".","。"));
+        }
+        else
+        {
+            ui->plainTextEdit_2->appendPlainText("Dialogue:0,"+
+                                                 secondsToTimeString(Danmu_time[i]).replace(".",":")
+                                                 +","+
+                                                 secondsToTimeString(Danmu_time[i]+ui->lineEdit_danmu_speed->text().toInt()).replace(".",":")
+                                                 +",big,,20,20,2,,{\\move(585,"+
+                                                 QString::number(ui->lineEdit_line->text().toInt()*x)
+                                                 +",-25,"+
+                                                 QString::number(ui->lineEdit_line->text().toInt()*x)
+                                                 +")}"+
+                                                 Danmu_msg[i].replace(".","。")+"×"+QString::number(repeat+1));
+        }
         if(x==7) x=0;
     }
     QSettings *settings1 = new QSettings("Setting.ini",QSettings::IniFormat);
