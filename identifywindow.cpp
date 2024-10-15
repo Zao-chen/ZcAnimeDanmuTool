@@ -174,6 +174,7 @@ void identifywindow::on_pushButton_next_clicked()
         // 尝试从顶层对象中获取"relateds"数组
         if (jsonObject.contains("relateds") && jsonObject["relateds"].isArray())
         {
+            Danmu_time.clear();
             QJsonArray jsonArray = jsonObject["relateds"].toArray();
             // 遍历数组中的每个元素
             for (int i = 0; i < jsonArray.size(); ++i)
