@@ -235,12 +235,14 @@ void identifywindow::on_pushButton_next_clicked()
         QUrl url = QUrl::fromLocalFile(QFileInfo(fileName).filePath());
         QDesktopServices::openUrl(url);
         loading(false);
+        break;
     }
         break;
     default :
         loading(false);
         break;
     }
+    change_page(ui->stackedWidget->currentIndex());
 }
 /*返回上一级*/
 void identifywindow::on_pushButton_back_clicked()
@@ -259,11 +261,14 @@ void identifywindow::on_pushButton_back_clicked()
     {
         ui->stackedWidget->setCurrentIndex(1);
         loading(false);
+        break;
     }
     default :
         //***
         break;
     }
+    change_page(ui->stackedWidget->currentIndex());
+
 }
 /*弹幕样式修改*/
 void identifywindow::on_pushButton_change_danmu_clicked()
@@ -349,4 +354,40 @@ void identifywindow::loading(bool switch_load)
         this->setEnabled(1);
         ui->progressBar->setVisible(0);
     }
+}
+void identifywindow::change_page(int i)
+{
+    QFont f_b;
+    f_b.setBold(1);
+    QFont f_nb;
+    f_nb.setBold(0);
+    switch (i) {
+    case 0:
+    {
+        ui->label_step_0->setFont(f_b);
+        ui->label_step_1->setFont(f_nb);
+        ui->label_step_2->setFont(f_nb);
+        ui->label_step_3->setFont(f_nb);
+        break;
+    }
+    case 1:
+    {
+        ui->label_step_0->setFont(f_nb);
+        ui->label_step_1->setFont(f_b);
+        ui->label_step_2->setFont(f_nb);
+        ui->label_step_3->setFont(f_nb);
+        break;
+    }
+    case 2:
+    {
+        ui->label_step_0->setFont(f_nb);
+        ui->label_step_1->setFont(f_nb);
+        ui->label_step_2->setFont(f_b);
+        ui->label_step_3->setFont(f_nb);
+        break;
+    }
+    default :
+        break;
+    }
+    qDebug()<<i;
 }

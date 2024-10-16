@@ -49,14 +49,19 @@
           <number>30</number>
          </property>
          <item>
-          <widget class="QLabel" name="label_12">
+          <widget class="QLabel" name="label_step_0">
+           <property name="font">
+            <font>
+             <bold>true</bold>
+            </font>
+           </property>
            <property name="text">
             <string>选择文件</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_9">
+          <widget class="QLabel" name="label_step_1">
            <property name="text">
             <string>识别番剧</string>
            </property>
@@ -66,7 +71,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_11">
+          <widget class="QLabel" name="label_step_2">
            <property name="text">
             <string>弹幕操作</string>
            </property>
@@ -76,7 +81,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_8">
+          <widget class="QLabel" name="label_step_3">
            <property name="text">
             <string>开始播放</string>
            </property>
@@ -90,7 +95,7 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>0</number>
+          <number>3</number>
          </property>
          <widget class="QWidget" name="page">
           <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -639,6 +644,7 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text<
            </item>
           </layout>
          </widget>
+         <widget class="QWidget" name="page_4"/>
         </widget>
        </item>
       </layout>
