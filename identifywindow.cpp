@@ -18,6 +18,11 @@ identifywindow::identifywindow(QWidget *parent)
     ui->setupUi(this);
     setWindowFlags(Qt::CustomizeWindowHint|Qt::FramelessWindowHint);
     ui->progressBar->setVisible(0);
+
+    QSettings *settings = new QSettings("Setting.ini",QSettings::IniFormat);
+    ui->lineEdit_danmu_speed->setText(settings->value("GlobelSetting/Danmu_stay_time").toString());
+    ui->lineEdit_size->setText(settings->value("GlobelSetting/Danmu_size").toString());
+    ui->lineEdit_line->setText(settings->value("GlobelSetting/Danmu_line").toString());
 }
 
 identifywindow::~identifywindow()
@@ -205,8 +210,8 @@ void identifywindow::on_pushButton_next_clicked()
                             Danmu_msg.append(m);
                         }
                     }
-                    QSettings *settings = new QSettings("Setting.ini",QSettings::IniFormat);
-                    ui->lineEdit_danmu_speed->setText(settings->value("GlobelSetting/Danmu_stay_time").toString());
+
+
 
                     QMetaObject::invokeMethod(ui->pushButton_change_danmu, "clicked", Qt::QueuedConnection);
                 }
@@ -321,13 +326,11 @@ void identifywindow::on_pushButton_change_danmu_clicked()
         if(x==7) x=0;
     }
     QSettings *settings1 = new QSettings("Setting.ini",QSettings::IniFormat);
-    //ini配置文件默认不支持直接读写中文，需要手动设置下编码格式才行
-    //configIni->setIniCodec("utf-8");//添上这句就不会中文出现乱码了
-    //强烈建议统一用utf-8编码，包括代码文件。
-    // 写入第一组数据
+    //配置相关
     settings1->beginGroup("GlobelSetting");
-
     settings1->setValue("Danmu_stay_time",ui->lineEdit_danmu_speed->text().toInt());
+    settings1->setValue("Danmu_size",ui->lineEdit_size->text().toInt());
+    settings1->setValue("Danmu_line",ui->lineEdit_line->text().toInt());
     settings1->endGroup();
     delete settings1;
     settings1 =nullptr;
