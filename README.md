@@ -1,3 +1,5 @@
+由于dandanplay的授权模式更新，改项目已废弃
+
 # ZcAnimeDanmuTool
 
 这是一个本地番剧外挂弹幕的全新解决方案
